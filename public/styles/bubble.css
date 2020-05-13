@@ -43,7 +43,7 @@
 	float: right;
 	margin-right: 10px;
 	color: white;
-	text-align: left; !important
+	text-align: left !important;
 }
 
 .bubble--alt:before {

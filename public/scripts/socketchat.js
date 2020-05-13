@@ -65,14 +65,15 @@ $(window).load(function(){
 		localPeerConnection=null;
 		remotePeerConnection=null;
 	};
-	$(document).on('click','#icons-tools div:eq(5)',function(e){
+	//main-expand-icon div:eq(5)
+	$(document).on('click','#icons-tools .main-expand-icon',function(e){
 		console.log('Inside number 5 clicked !!');
 		$(document).one('click','.main-expand-icon-active',exitFullscreen);
 		$(document).one('keyup', function(e) {
 		    if (e.keyCode == 27) { 
 		      	ESC_BUTTON_PRESSED = true;
 		      	ESC_COUNT++;
-		      	toggleFunction("fullscreen", $('#icons-tools div:eq(5)'),"main-expand-icon","main-expand-icon-active");
+		      	toggleFunction("fullscreen", $('#icons-tools .main-expand-icon'),"main-expand-icon","main-expand-icon-active");
 		    } 
 		});
 		toggleFunction("fullscreen", $(this),"main-expand-icon","main-expand-icon-active");
@@ -101,8 +102,9 @@ $(window).load(function(){
          !(localStream.getAudioTracks()[0].enabled);
 	});
 	//REMOTE AUDIO STOP ENDS
-	//4th Button is clicked
-	$(document).on('click','#icons-tools div:eq(4)',function(e){
+	//4th Button is clicked main-phone-drop-icon
+	// icons-tools div:eq(4)
+	$(document).on('click','#icons-tools .main-phone-drop-icon',function(e){
 		toggleFunction("phone", $(this),"main-phone-drop-icon",".main-phone-drop-icon-active");
 		console.log('drop call clicked!!');
 		globalClose();
@@ -224,8 +226,12 @@ $(window).load(function(){
 		//THESE VALUES WILL BE CHANGED!!!
 		localStream = stream;
 		//NEW CODE//
+		console.log(stream, 'stream 227');
 		  if (window.URL) {
-		    elem.src = window.URL.createObjectURL(stream);
+			var binaryData = [];
+			binaryData.push(stream);
+			elem.src = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}));
+		    // elem.src = window.URL.createObjectURL(stream);
 		  } else {
 		    elem.src = stream;
 		  }
@@ -327,7 +333,7 @@ function addRemoteVideo(top, height, stream)
 			}).hide();
 		$('#local-video').prepend('<video autoplay style="width: '+main_width+'"></video>');
 		$('#local-video').find('video')[0].src=stream;
-		$('#remote-video').find('video')[0].play();
+		$('#remote-video').find('video')[0].load(); //play();
 		globalVideo = $('#local-video').find('video')[0];
 		setTimeout(function(){
 			removeBlackOverlay();
@@ -364,7 +370,7 @@ function removeRemoteVideo()
 		$('#local-video').find('video').remove();
 		$('#local-video').prepend($('#remote-video').find('video').eq(0).removeClass('remote-video-right').css({'position': 'absolute','height': 'auto', 'width': main_width, 'left': 0}));
 		$('#remote-video').find('video').remove();
-		$('#local-video').find('video')[0].play();	
+		$('#local-video').find('video')[0].load();//play();	
 		globalVideo = $('#local-video').find('video')[0];
 		globalStream = localStream;
 		console.log('FUNCTION ENDED !!!!');
@@ -385,7 +391,7 @@ function removeRemoteVideo()
 		//NOW doing the first if condition things...
 		$('#local-video').prepend($('#remote-video').find('video').eq(0).removeClass('remote-video-right').css({'position': 'absolute','height': 'auto', 'width': main_width, 'left': 0}));
 		$('#remote-video').find('video').remove();
-		$('#local-video').find('video')[0].play();	
+		$('#local-video').find('video')[0].load();//play();	
 		//ENDS--
 		setTimeout(function(){
 			socket.screenStream.stop();
@@ -449,7 +455,10 @@ function removeRemoteVideo()
 		var objstream;
 		//NEW CODE//
 		  if (window.URL) {
-		    objstream = window.URL.createObjectURL(stream.stream)
+			var binaryData = [];
+			binaryData.push(stream);
+			objstream = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}));
+		    // objstream = window.URL.createObjectURL(stream.stream)
 		  } else {
 		    objstream = stream.stream;
 		  }
@@ -517,7 +526,10 @@ function removeRemoteVideo()
 		remoteStream = stream.stream;
 		//NEW CODE//
 		  if (window.URL) {
-		    objstream = window.URL.createObjectURL(stream.stream)
+			var binaryData = [];
+			binaryData.push(stream);
+			objstream = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}));
+		    // objstream = window.URL.createObjectURL(stream.stream)
 		  } else {
 		    objstream = stream.stream;
 		  }
